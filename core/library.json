@@ -1,0 +1,24 @@
+{
+  "name": "meshdeck_core",
+  "version": "2.0.0",
+  "description": "MESHDECK's portable core (kernel, services, UI, apps), shared by the Tab5 firmware, the simulator and the tests.",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "dependencies": [{ "name": "lvgl" }],
+  "build": {
+    "srcDir": ".",
+    "includeDir": ".",
+    "srcFilter": [
+      "+<kernel/*.cpp>",
+      "+<services/*.cpp>",
+      "+<games/*.cpp>",
+      "+<formats/*.cpp>",
+      "+<ui/*.cpp>",
+      "+<ui/fonts/*.cpp>",
+      "+<ui/credits/*.cpp>",
+      "+<apps/*.cpp>",
+      "-<CMakeLists.txt>"
+    ]
+  }
+}

@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<title>MESHDECK CR // OS Manual</title>
+<style>
+  /* The OS theme (GREEN): black-green background, phosphor text, VT323 terminal font. */
+  @font-face { font-family: "VT323"; src: url("fonts/VT323-Regular.ttf") format("truetype"); }
+  @page { size: A4; margin: 16mm 14mm 16mm 14mm; background: #030803; }
+  html, body {
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    background: #030803; color: #33FF66;
+  }
+  body { font-family: "VT323", "Consolas", monospace; font-size: 15pt; line-height: 1.25; margin: 0; }
+  h1 {
+    font-size: 30pt; font-weight: normal; color: #B8FFC8; text-transform: uppercase; letter-spacing: 2px;
+    border: 2px solid #33FF66; background: #071207; padding: 6px 12px; margin: 0 0 14px 0;
+    page-break-before: always;
+  }
+  h1.first { page-break-before: avoid; }
+  h2 {
+    font-size: 19pt; font-weight: normal; color: #33FF66; text-transform: uppercase; letter-spacing: 1px;
+    border-bottom: 1px solid #145A24; padding-bottom: 2px; margin: 20px 0 6px 0;
+  }
+  h3 { font-size: 16pt; font-weight: normal; color: #B8FFC8; margin: 14px 0 4px 0; }
+  p, li { margin: 4px 0; }
+  b { color: #B8FFC8; font-weight: normal; }
+  code, kbd {
+    font-family: "VT323", monospace; font-size: 15pt; color: #B8FFC8;
+    background: #071207; border: 1px solid #145A24; padding: 0 4px;
+  }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0 12px; font-size: 14pt; page-break-inside: auto; }
+  th, td { border: 1px solid #145A24; padding: 3px 7px; vertical-align: top; text-align: left; }
+  th { background: #071207; color: #B8FFC8; font-weight: normal; text-transform: uppercase; }
+  td { color: #33FF66; }
+  tr { page-break-inside: avoid; }
+  .note, .warn {
+    border: 2px solid #33FF66; background: #071207; padding: 6px 12px; margin: 10px 0; color: #33FF66;
+  }
+  .warn { border-color: #B8FFC8; }
+  .warn::before { content: "! "; color: #B8FFC8; }
+  .note::before { content: "> "; color: #33FF66; }
+  .cover { text-align: center; padding-top: 110px; page-break-after: always; }
+  .cover h1 {
+    border: 3px solid #33FF66; font-size: 56pt; letter-spacing: 10px; padding: 18px 24px; page-break-before: avoid;
+    background: #030803;
+  }
+  .cover .sub { font-size: 20pt; color: #22B04A; }
+  .toc li { margin: 2px 0; color: #33FF66; }
+  .small { font-size: 12pt; color: #22B04A; }
+  code { color: #B8FFC8; overflow-wrap: anywhere; }
+  ol, ul { padding-left: 26px; }
+  ol li::marker, ul li::marker { color: #22B04A; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>MESHDECK</h1>
+  <p class="sub">CR // OS 2.0</p>
+  <p class="sub">An offline field operating system for the M5Stack Tab5</p>
+  <p class="sub">User manual: what it does, how to use it, and what it can and cannot do</p>
+  <p class="small">Version 2.0.0-dev (V7) with GAMES (RALLY, SEA BATTLE, KLONDIKE), TOOLS, the EMCON radio levels and the boot splash.<br>
+  Written 2 November 2026.</p>
+</div>
+
+<h1 class="first">Contents</h1>
+<ol class="toc">
+  <li>About MESHDECK</li>
+  <li>The hardware you need</li>
+  <li>Your first start</li>
+  <li>The home screen and the keys</li>
+  <li>Security: the PIN and the lock</li>
+  <li>MESSAGES: mesh chat</li>
+  <li>MAP: offline maps and places</li>
+  <li>LIBRARY: reference cards and books</li>
+  <li>LOGBOOK: field log, reports, inventory and notes</li>
+  <li>FILES: your files, screenshots and imports</li>
+  <li>TERMINAL: typed commands</li>
+  <li>SETTINGS: display, clock and about</li>
+  <li>DIAGNOSTICS: power and system</li>
+  <li>GAMES: RALLY, SEA BATTLE and KLONDIKE</li>
+  <li>TOOLS: timer, stopwatch and calculator</li>
+  <li>EMCON radio levels (SECURITY): NORMAL, RX ONLY and RADIO OFF</li>
+  <li>The boot splash and the home information panel</li>
+  <li>Power: what the deck does and does not do</li>
+  <li>The SD card: where everything is kept</li>
+  <li>Privacy: what leaves the deck, and what doesn't</li>
+  <li>Troubleshooting</li>
+  <li>Capabilities at a glance</li>
+  <li>For developers: building, testing and the code layout</li>
+  <li>Licence, credits and third-party software</li>
+</ol>
+
+<h1>1. About MESHDECK</h1>
+<p>MESHDECK is an offline field operating system. It runs on an M5Stack Tab5, a 5-inch touchscreen
+computer with a physical keyboard, and it is built for civilian resilience: staying in touch, finding
+your way, keeping records and passing the time when there is no internet and no phone network.</p>
+<p>MESHDECK does five jobs:</p>
+<ul>
+  <li><b>Talk.</b> Messages over a Meshtastic mesh radio: chat with a channel or a single node.</li>
+  <li><b>Find.</b> Offline Ordnance Survey maps, a search of about 25,000 places, and the positions of other nodes.</li>
+  <li><b>Read and keep.</b> A reference library, a book reader for PDF and EPUB books, a field log, reports, an inventory and notes.</li>
+  <li><b>Run.</b> A terminal of typed commands, a diagnostics page and settings.</li>
+  <li><b>Lock.</b> A PIN lock with an auto-lock time, so the deck can be left without being used by someone else.</li>
+</ul>
+<p>There is also a small set of games for downtime (section 14). Everything works with no internet and
+no phone network. The deck does not connect to the internet, and nothing is sent anywhere unless you
+send it yourself over the mesh (section 18).</p>
+
+<div class="warn"><b>Not yet built.</b> Some features are not in this version.
+Section 20 lists them in full.</div>
+
+<h1>2. The hardware you need</h1>
+<table>
+  <tr><th>Part</th><th>Needed?</th><th>What it is for</th></tr>
+  <tr><td>M5Stack Tab5</td><td>Yes</td><td>The computer: 5-inch 1280 x 720 touchscreen, physical keyboard, battery, USB-C.</td></tr>
+  <tr><td>microSD card (FAT32)</td><td>Yes</td><td>Everything you save: messages, maps, books, files, logs, reports, notes. Without a card the deck still runs, but nothing is kept.</td></tr>
+  <tr><td>M5Stack Unit C6L (Meshtastic radio)</td><td>For messages and positions</td><td>Plugs into the USB-A port. Connects MESHDECK to a Meshtastic mesh network.</td></tr>
+  <tr><td>Map packs and place list</td><td>For maps and place search</td><td>Copied to the card (section 7). Not supplied in the download.</td></tr>
+  <tr><td>Book packs</td><td>For the book reader</td><td>Copied to the card, or made on the deck from an EPUB (section 9).</td></tr>
+</table>
+<p class="note">MESHDECK is developed for the Tab5. The keyboard must be a physical one: there is no on-screen
+keyboard. Touch works for buttons, tiles and lists; typing needs the physical keyboard.</p>
+
+<h1>3. Your first start</h1>
+<p>The first time MESHDECK starts, the setup walks you through three steps. Each step can be skipped and
+changed later.</p>
+<ol>
+  <li><b>Welcome.</b> A short introduction.</li>
+  <li><b>Clock.</b> Set the date and time. MESHDECK uses UK time, and works out GMT or BST for you. The clock keeps time
+  on its own battery, so you set it once.</li>
+  <li><b>PIN.</b> Choose whether to protect the deck with a PIN (4 to 12 digits). You can set one later in SECURITY.</li>
+</ol>
+<p>After setup you reach the home screen (section 4). The splash (section 15) shows at every power-on before
+that.</p>
+
+<h1>4. The home screen and the keys</h1>
+<p>The home screen has eleven tiles, each opened by tapping it or pressing its key:</p>
+<table>
+  <tr><th>Key</th><th>Tile</th><th>What it opens</th></tr>
+  <tr><td>1</td><td>MESSAGES</td><td>Mesh chat, nodes and contacts (section 6)</td></tr>
+  <tr><td>2</td><td>MAP</td><td>Offline maps, place search, positions (section 7)</td></tr>
+  <tr><td>3</td><td>LIBRARY</td><td>Reference cards and the book reader (section 8)</td></tr>
+  <tr><td>4</td><td>LOGBOOK</td><td>Field log, reports, inventory and notes (section 9)</td></tr>
+  <tr><td>5</td><td>FILES</td><td>Your files, screenshots and imports (section 10)</td></tr>
+  <tr><td>6</td><td>TERMINAL</td><td>Typed commands (section 11)</td></tr>
+  <tr><td>7</td><td>SETTINGS</td><td>Display, clock and about (section 12)</td></tr>
+  <tr><td>8</td><td>DIAGNOSTICS</td><td>Power and system figures (section 13)</td></tr>
+  <tr><td>9</td><td>SECURITY</td><td>PIN, auto-lock and lock now (section 5)</td></tr>
+  <tr><td>0</td><td>GAMES</td><td>RALLY, SEA BATTLE and KLONDIKE (section 14)</td></tr>
+  <tr><td>A</td><td>TOOLS</td><td>Timer, stopwatch and calculator (section 14a)</td></tr>
+</table>
+<p>The empty space beside the tiles shows the radio and the deck (section 15). The last space shows the time,
+the date and the battery time left.</p>
+
+<h2>4.1 Keys</h2>
+<table>
+  <tr><th>Key</th><th>Does</th></tr>
+  <tr><td>1 to 9, 0, A</td><td>Open a home tile from anywhere. On a screen with its own numbered parts (LOGBOOK, SETTINGS, GAMES), the numbers open those parts first.</td></tr>
+  <tr><td>Arrows</td><td>Move between buttons and places. In games and the map, they move the cursor or the picture.</td></tr>
+  <tr><td>Enter</td><td>Press the highlighted button or open the highlighted item.</td></tr>
+  <tr><td>Esc</td><td>Back one step. From a tile it returns home.</td></tr>
+  <tr><td>+ and -</td><td>Zoom the map or turn the page, where the screen uses them. Brightness is set in SETTINGS.</td></tr>
+  <tr><td>Ctrl+P</td><td>Save a screenshot to MESHDECK/Files/Screenshots (it appears at the top of FILES).</td></tr>
+  <tr><td>Ctrl+N</td><td>Change the colour theme: green, amber or red.</td></tr>
+  <tr><td>Ctrl+L</td><td>Lock now (needs a PIN set).</td></tr>
+</table>
+<p>The line at the bottom of every screen says which keys do what on that screen.</p>
+
+<h2>4.2 Touch</h2>
+<p>Tap a tile, a button, a list item or a place to use it. Scroll lists by dragging. The Back button at the top
+left returns one step. Where a screen needs typed text, use the physical keyboard.</p>
+
+<h1>5. Security: the PIN and the lock</h1>
+<p>SECURITY (tile 9) sets, changes and removes the PIN, sets the auto-lock time, and sets the radio emissions (EMCON).</p>
+<ul>
+  <li><b>PIN:</b> 4 to 12 digits. The PIN itself is never stored; MESHDECK keeps a salted PBKDF2-HMAC-SHA256
+  hash of it (20,000 rounds), in the Tab5's internal flash, not on the card. Taking the card out does not remove the PIN.</li>
+  <li><b>When it locks:</b> at start-up when a PIN is set; after the auto-lock time with no key or touch
+  (OFF, 2, 5 or 15 minutes; 5 by default); and on Ctrl+L or LOCK NOW.</li>
+  <li><b>Wrong PINs:</b> the first three in a row are free. Each further wrong PIN makes you wait: 30 seconds, then 1 minute,
+  5 minutes, 15 minutes, then an hour each time. The count is saved, so a restart does not skip the wait.
+  Nothing is ever wiped automatically.</li>
+  <li><b>Radio emissions (EMCON):</b> NORMAL sends and receives. RX ONLY sends nothing: messages wait as HELD, and the
+  radio's own transmitter is switched off, so it does not relay either. RADIO OFF stops MESHDECK using the radio and
+  switches its transmitter off; the radio stays powered, because MESHDECK never powers hardware down. The choice is kept
+  across restarts. The Security screen shows the current level and what it means.</li>
+  <li><b>While locked:</b> only the lock screen responds. Over USB serial only STATUS, POWER and KEY (for typing the PIN) are accepted.</li>
+</ul>
+<div class="warn"><b>Limits.</b> The files on the SD card are not encrypted. Anyone who takes the card out can read it on a PC. The lock
+stops someone using the deck, not someone with a card reader. A four-digit PIN can be guessed over days
+with the waits above, so use six or more digits if that matters.</div>
+
+<h1>6. MESSAGES: mesh chat</h1>
+<p>MESSAGES talks to other Meshtastic nodes through the Unit C6L radio. It needs the radio plugged into the USB-A
+port; without it the screen says NO RADIO and explains what to connect.</p>
+<h2>6.1 The screens</h2>
+<table>
+  <tr><th>Screen</th><th>What it shows</th></tr>
+  <tr><td>CHATS</td><td>Every channel and every conversation with one node, newest first, with unread counts.</td></tr>
+  <tr><td>THREAD</td><td>The messages in one channel or conversation. Each of your messages shows its state: QUEUED, SENT, DELIVERED or FAILED, with the reason when it fails.</td></tr>
+  <tr><td>NODES</td><td>Every node the radio has heard. Tap one to start a direct conversation with it.</td></tr>
+  <tr><td>CONTACT</td><td>Give a node a nickname and a note. The nickname is shown everywhere instead of its short name.</td></tr>
+</table>
+<h2>6.2 Using it</h2>
+<ul>
+  <li>Type in the box at the bottom and press Enter (or SEND) to send.</li>
+  <li>DELETE removes a whole conversation. It asks for a second press within five seconds.</li>
+  <li>Delivery states are honest: DELIVERED means the mesh heard the message, which is not proof that everyone got it.</li>
+  <li>A message that arrives while you are on another screen shows as a notice on the hint line and as an unread count on the tile.</li>
+</ul>
+<p>Messages are kept in MESHDECK/msg on the card, so they survive restarts. Your channels are the ones set in the radio.</p>
+
+<h1>7. MAP: offline maps and places</h1>
+<p>MAP draws offline Ordnance Survey maps from map packs on the card (MESHDECK/maps). It works with no internet.</p>
+<h2>7.1 The screens</h2>
+<table>
+  <tr><th>Screen</th><th>What it does</th></tr>
+  <tr><td>MAP</td><td>The map with grid lines. Drag, or use the arrow keys, to move. The + and - buttons, or the + and - keys, zoom. C centres the map on you. S opens the search. Nodes show with their nicknames; you show as a filled dot.</td></tr>
+  <tr><td>SEARCH</td><td>Type a place name. The search covers the towns, villages, hamlets, hills and water in the place list you built for your area (section 7.2). A place found is marked on the map.</td></tr>
+  <tr><td>POSITION</td><td>Set where you are: type an OS grid reference (for example SX 923 928) or latitude and longitude, use the map centre, or use a node's GPS position.</td></tr>
+  <tr><td>NODES</td><td>Every node that has sent a position, with its distance and bearing from you.</td></tr>
+</table>
+<div class="note">Map packs and the place list are not supplied in the download. You make them for your own area, as below.</div>
+
+<h2>7.2 Getting maps for your own area</h2>
+<p>You make maps on a PC from free Ordnance Survey data, with the Python tools in the repository's tools folder. The full guide,
+with every command, is docs/maps.md in the repository. The tools cover Great Britain only: there is nothing yet for Northern Ireland,
+the Isle of Man or the Channel Islands. The example below is Exeter; use your own area.</p>
+<ol>
+  <li><b>Download the data.</b> From the OS Data Hub (osdatahub.os.uk, open data downloads), get <b>OS Open Zoomstack</b> in the
+  <b>Vector Tiles</b> format (one .mbtiles file for all of Great Britain, a few gigabytes). It is free under the Open Government Licence.</li>
+  <li><b>Install the tools.</b> Install Python 3.10 or newer, then run: <code>python -m pip install mapbox-vector-tile Pillow pyserial</code></li>
+  <li><b>Find your area.</b> The tools use OS grid eastings and northings in metres. Central Exeter is E 292300, N 92900
+  (grid reference SX 923 928). To convert a latitude and longitude, see docs/maps.md. For an area, note the south-west and
+  north-east corners: a 50 km box around Exeter is 267000 68000 317000 118000.</li>
+  <li><b>Build the packs.</b> Run these from the repository's top folder:
+    <ul>
+      <li>Great Britain overview (about 10 MB): <code>python tools/build_map.py ZOOMSTACK.mbtiles uk.map uk</code></li>
+      <li>Detail for a town (a 20 km square, about 150 MB): <code>python tools/build_map.py ZOOMSTACK.mbtiles exeter.map local --centre 292300 92900 --size-km 20</code></li>
+      <li>Or a larger area such as a county: <code>python tools/build_map.py ZOOMSTACK.mbtiles devon.map region --bbox 267000 68000 317000 118000</code></li>
+    </ul></li>
+  <li><b>Build the place list.</b> <code>python tools/build_gazetteer.py ZOOMSTACK.mbtiles places.txt --box 267000 68000 317000 118000</code>.
+  Always give the box: without it the tool uses a built-in default that is probably not your area.</li>
+  <li><b>Put them on the card.</b> Copy the .map files and places.txt into MESHDECK/maps on the SD card (FAT32). Or, with the Tab5
+  connected by USB, send each file with <code>python tools/upload.py exeter.map exeter.map COM4</code> (use your own port).
+  Restart the Tab5 if it was running.</li>
+  <li><b>Check.</b> Open MAP (key 2): the map draws with the OS attribution at the bottom. Press S, type part of a town's name in
+  your area, and choose it: the map centres on it. Zoom in with + to check the detail.</li>
+</ol>
+
+<h1>8. LIBRARY: reference cards and books</h1>
+<h2>8.1 Cards</h2>
+<p>CARDS holds built-in UK reference cards: emergency contacts, three-day supplies, flood safety, power and gas
+safety, water interruption and food in a power cut. The cards are searchable. The contact numbers are
+reference information and are not a guarantee that a service is available.</p>
+<h2>8.2 Books</h2>
+<p>BOOKS is the shelf of every book in MESHDECK/books. Books come in two kinds:</p>
+<ul>
+  <li><b>PDF</b> books are shown one page at a time, drawn in the theme colour.</li>
+  <li><b>EPUB</b> books are shown as text, one section at a time.</li>
+</ul>
+<p>In the reader you can turn pages, open the contents, search inside the book, and go to a page number. MESHDECK remembers
+where you left each book. An EPUB can be made into a book on the deck: see section 10.</p>
+<div class="warn"><b>Making PDF books.</b> PDF books are made with a PC tool, tools/build_books.py, which is named in
+the library's empty-shelf message. That tool is not in the repository yet, so PDF books have to be made another way for now.</div>
+
+<h1>9. LOGBOOK: field log, reports, inventory and notes</h1>
+<p>LOGBOOK (tile 4) has four parts, opened by 1 to 4 or by tapping them.</p>
+<h2>9.1 LOG ENTRIES: the field log</h2>
+<ul>
+  <li>Type what happened, what was seen and where, then press ADD ENTRY. Each entry is stamped with the date and time (UK time, when the clock is set).</li>
+  <li>Entries are added and never edited, so the record stays as it was written. The newest 200 are listed; all are kept.</li>
+  <li>Entries are kept in MESHDECK/log/field.jnl. The file is designed so a power cut loses at most the entry being written.</li>
+</ul>
+<h2>9.2 REPORTS: standard forms</h2>
+<p>Four forms follow the usual field mnemonics:</p>
+<table>
+  <tr><th>Form</th><th>Use</th><th>Boxes</th></tr>
+  <tr><td>SITREP</td><td>Situation report</td><td>Who, where (grid reference, filled from your position when set), status, needs, next check-in, notes</td></tr>
+  <tr><td>METHANE</td><td>Major incident (JESIP)</td><td>Major incident declared, exact location, type, hazards, access, number of casualties, emergency services</td></tr>
+  <tr><td>ATMIST</td><td>Casualty handover</td><td>Age and sex, time of incident (filled from the clock), mechanism, injuries, signs, treatment</td></tr>
+  <tr><td>SALUTE</td><td>Observation</td><td>Size, activity, location (filled from your position), unit or identity, time seen (filled), equipment</td></tr>
+</table>
+<p>Pick a form, tap a box and type. The preview shows the report as it will be saved. SAVE writes the report to
+MESHDECK/reports as a text file. Reports are not sent over the mesh; pass a saved report on by hand if you need to.</p>
+<h2>9.3 INVENTORY: kit and supply lists</h2>
+<ul>
+  <li>Keep a list per location (for example GRAB BAG, CAR, STORE CUPBOARD). Add a location with the box on the right.</li>
+  <li>Add items with a count. Use -1 and +1 to change the count. DELETE asks for a second press.</li>
+  <li>Give an item an expiry date as YYYY-MM-DD with SET DATE. Items expiring within 30 days, and expired items, are marked.</li>
+  <li>STARTER KIT adds the fourteen items of the standard household emergency kit at zero, to be counted.</li>
+  <li>CHECKED NOW records when a location was last checked. It refuses if the clock is not set.</li>
+</ul>
+<p>The inventory is saved to MESHDECK/inventory.</p>
+<h2>9.4 NOTES</h2>
+<p>Plain-text notes, one file each, in MESHDECK/notes. Type a note and press SAVE NOTE. Tap a note to read it.
+DELETE removes a note after a second press. Notes are text only; use the reports for forms.</p>
+
+<h1>10. FILES: your files, screenshots and imports</h1>
+<p>FILES browses MESHDECK/Files on the card. The Inbox and Screenshots folders are at the top.</p>
+<table>
+  <tr><th>Action</th><th>How</th></tr>
+  <tr><td>Open a folder or select a file</td><td>Enter, or tap.</td></tr>
+  <tr><td>See the details</td><td>The name, size and a text preview of the first 6 KB. Pictures show a note instead.</td></tr>
+  <tr><td>Rename</td><td>Type the new name and press RENAME.</td></tr>
+  <tr><td>Copy</td><td>COPY makes a copy beside the file, named with -copy.</td></tr>
+  <tr><td>Delete</td><td>Press DELETE, then CONFIRM DELETE within five seconds. Folders are not deleted here.</td></tr>
+  <tr><td>View a picture</td><td>PNG, JPEG and BMP files show a VIEW IMAGE button. Esc closes the picture.</td></tr>
+  <tr><td>Import an EPUB as a book</td><td>Select an EPUB (for example one copied into the Inbox) and press IMPORT AS BOOK. The book is saved to MESHDECK/books and appears on the LIBRARY shelf.</td></tr>
+</table>
+<p>The import reads the whole book before it writes, so a long book takes a few seconds and the screen waits. Very
+long books are cut short at about 4 MB of text, and the screen says so. Only EPUB files are imported; PDF books are not
+imported on the deck yet.</p>
+
+<h1>11. TERMINAL: typed commands</h1>
+<p>TERMINAL is a command line. Type a command and press Enter or RUN. The answer appears above the command line,
+and the newest lines are kept. Command names are not case-sensitive.</p>
+<table>
+  <tr><th>Command</th><th>What it reports</th></tr>
+  <tr><td>HELP</td><td>The list of commands, with what each does.</td></tr>
+  <tr><td>STATUS</td><td>The version, the device, the time since start-up, free memory and whether the card is present.</td></tr>
+  <tr><td>POWER</td><td>Battery percentage, voltage, average current, external power and the time left. Values not measured are said to be not measured.</td></tr>
+  <tr><td>MESH</td><td>The radio link, the channels, the number of nodes heard and the messages kept.</td></tr>
+  <tr><td>NODES</td><td>The nodes heard most recently, with signal (SNR) and how long ago.</td></tr>
+  <tr><td>TIME</td><td>The clock in UK time, or CLOCK NOT SET.</td></tr>
+  <tr><td>SCREENSHOT</td><td>Saves the screen to MESHDECK/Files/Screenshots.</td></tr>
+  <tr><td>CLEAR</td><td>Empties the terminal screen.</td></tr>
+</table>
+<p>An unknown word gets "UNKNOWN COMMAND ... TYPE HELP". The terminal only reports; it changes no settings and no data.</p>
+
+<h1>12. SETTINGS: display, clock and about</h1>
+<table>
+  <tr><th>Part</th><th>What it does</th></tr>
+  <tr><td>1 DISPLAY</td><td>The colour theme (green, amber or red), the brightness from 10 to 100 percent with + and -, and TAKE SCREENSHOT.</td></tr>
+  <tr><td>2 CLOCK</td><td>Set the date and time. UK local time, with GMT or BST worked out automatically.</td></tr>
+  <tr><td>3 ABOUT</td><td>The version, the platform, the storage in use, and the licences. CREDITS opens the author's logo and a short note.</td></tr>
+</table>
+<p>Brightness is the only power setting. There is no sleep mode, no screen-off and no power-saving preset (section 16).</p>
+
+<h1>13. DIAGNOSTICS: power, system and the test pages</h1>
+<p>DIAGNOSTICS shows the live power figures: battery voltage and current, the one-minute average, and the estimated
+time left. It also shows the system basics: the version, the storage and the memory.</p>
+<p>Three buttons along the bottom open the test pages. TOUCH TEST shows a grid of boxes; tap each one and it turns
+solid, so a dead spot on the screen stays empty. KEY LOG lists the last keys pressed, newest first, with their codes.
+RADIO shows the mesh link, your node number, how many nodes have been heard, and the channels. BACK or Esc returns
+to the main page.</p>
+
+<h1>14. GAMES: RALLY, SEA BATTLE and KLONDIKE</h1>
+<p>GAMES (tile 0) is a hub of three games with your best score for each. Press 1, 2 or 3, or tap a game. Best
+scores are kept on the card in MESHDECK/games/scores.txt, and only a new best is written.</p>
+
+<h2>14.1 RALLY: pong against the CPU</h2>
+<ul>
+  <li>You play the left paddle against the CPU on the right. First to seven points wins the match.</li>
+  <li>Keys: W and S, or the up and down arrows, move the paddle. A key press keeps it moving briefly, since the keyboard sends presses, not holds.</li>
+  <li>SPACE or Enter starts a match, and starts a new one after a match ends.</li>
+  <li>The ball speeds up a little with each return. The CPU is a little slower than a quick hand and aims slightly off, so it can be beaten.</li>
+  <li>Best score: the most points you scored in one match.</li>
+</ul>
+
+<h2>14.2 SEA BATTLE: fleets against the CPU</h2>
+<ul>
+  <li>Each side has five ships (lengths 5, 4, 3, 3 and 2) on a 10 by 10 sea. Both fleets are placed at random when a game starts.</li>
+  <li>The left sea is YOUR FLEET, where the CPU fires. The right sea is the CPU's sea, where you fire.</li>
+  <li>Move the cursor with the arrows and press Enter or Space to fire. You can also tap a square. The CPU fires back after each of your shots, and once it hits, it fires next to its hits until the ship sinks.</li>
+  <li>N starts a new fleet. A win is scored as 200 minus the number of shots, so a higher score is better. Only won games are saved.</li>
+</ul>
+<p>Fleets are placed at random. You cannot place your own ships yet.</p>
+
+<h2>14.3 KLONDIKE: draw one</h2>
+<ul>
+  <li>The standard solitaire layout: a stock and a waste pile at the top left, four foundations at the top right, and seven columns below.</li>
+  <li>D, or Enter on the stock, turns one card from the stock onto the waste. When the stock is empty, the waste turns back over into the stock.</li>
+  <li>Move the cursor over the 13 places with the arrows. Enter picks up a card (or a run of face-up cards, from a column) and Enter on another place puts it down if the rules allow. Up and down choose how much of a run to take.</li>
+  <li>Cards build down in alternating colours in the columns, and up by suit from the ace in the foundations. Only kings start an empty column.</li>
+  <li>U undoes the last move or draw. N deals a new game.</li>
+  <li>Best score: the fewest moves to win, kept as 1000 minus the moves. Only a won game is saved.</li>
+</ul>
+<p>KLONDIKE is played with the keyboard only at present. Tapping cards is not built yet.</p>
+
+<h1>14a. TOOLS: timer, stopwatch and calculator</h1>
+<p>TOOLS (tile A) is a hub of three small tools. Press 1, 2 or 3, or tap one. Nothing here is saved to the card.</p>
+
+<h2>14a.1 TIMER</h2>
+<ul>
+  <li>Pick 1, 5, 10 or 15 minutes, then START. SPACE starts or pauses. R resets to the chosen length.</li>
+  <li>The status line shows TIME'S UP when the time runs out.</li>
+</ul>
+
+<h2>14a.2 STOPWATCH</h2>
+<ul>
+  <li>START and STOP (or SPACE). LAP records the time so far, and the last eight laps are listed. RESET clears everything.</li>
+  <li>Tenths of a second show while it runs.</li>
+</ul>
+
+<h2>14a.3 CALCULATOR</h2>
+<ul>
+  <li>Digits, the point, and + - * / , then = or Enter to work it out. It works left to right, as a pocket calculator does: 2 + 3 * 4 gives 20.</li>
+  <li>BKSP deletes the last digit, and C clears everything. Division by zero shows ERROR until you press C.</li>
+  <li>Up to 12 digits can be typed. There is no key for a minus sign on a number you type, but a result can be negative (1 - 5 gives -4).</li>
+</ul>
+
+<h1>15. The boot splash and the home information panel</h1>
+<h2>15.1 The boot splash</h2>
+<p>At every power-on, green drips fall down the screen and light up the words MESHDECK - OS, letter by letter. When the words
+are complete, the drips still falling run off the bottom of the screen, leaving the words alone on black; then the words fade
+out, and the lock screen (if a PIN is set), the setup (on first start) or the
+home screen appears. Any key or a tap skips the splash.</p>
+<h2>15.2 The home information panel</h2>
+<p>The empty space beside the tiles shows, live:</p>
+<ul>
+  <li>The mesh state: MESH OK, MESH CONNECTING, or NO RADIO.</li>
+  <li>How many nodes were heard in the last two hours, and the two strongest signals by SNR (signal-to-noise ratio, in dB).</li>
+  <li>The battery percentage, free memory, uptime and the number of mesh channels.</li>
+</ul>
+
+<h1>16. Power: what the deck does and does not do</h1>
+<p>MESHDECK's one power control is the screen brightness, set in SETTINGS > DISPLAY, from 10 to 100 percent.</p>
+<div class="note">The deck does not sleep, does not switch off the screen, does not slow the processor, does not switch
+parts off, and has no power presets. That was a deliberate decision. The screen stays on, and nothing is powered
+down without you asking.</div>
+<p>DIAGNOSTICS and the POWER command give the battery figures. The battery time left is an estimate from the average
+current over the last minute, and is shown as unknown until enough readings exist.</p>
+
+<h1>17. The SD card: where everything is kept</h1>
+<p>Everything you save is on the card, under the MESHDECK folder:</p>
+<table>
+  <tr><th>Folder</th><th>Holds</th></tr>
+  <tr><td>MESHDECK/ (root)</td><td>Settings and the position you set.</td></tr>
+  <tr><td>MESHDECK/log/</td><td>The system journal and the field log (field.jnl).</td></tr>
+  <tr><td>MESHDECK/msg/</td><td>Messages and contacts (nicknames and notes).</td></tr>
+  <tr><td>MESHDECK/maps/</td><td>Map packs (*.map) and the place list.</td></tr>
+  <tr><td>MESHDECK/books/</td><td>Book packs (*.bk) and where you left each book.</td></tr>
+  <tr><td>MESHDECK/reports/</td><td>Saved reports.</td></tr>
+  <tr><td>MESHDECK/inventory/</td><td>The inventory lists.</td></tr>
+  <tr><td>MESHDECK/notes/</td><td>Plain-text notes.</td></tr>
+  <tr><td>MESHDECK/games/</td><td>Best scores.</td></tr>
+  <tr><td>MESHDECK/Files/</td><td>Your own files, visible in FILES, with Inbox and Screenshots folders.</td></tr>
+  <tr><td>MESHDECK/update/</td><td>Reserved for signed firmware updates.</td></tr>
+</table>
+<p>The PIN is not on the card. It is stored in the Tab5's internal flash, so removing the card does not change it.
+The card is not encrypted (section 5). Files are written so that a power cut leaves either the old file or the new one.</p>
+
+<h1>18. Privacy: what leaves the deck, and what doesn't</h1>
+<ul>
+  <li><b>Nothing leaves the deck by itself.</b> MESHDECK has no internet connection and sends no data to any service.</li>
+  <li><b>Mesh messages</b> leave the deck only when you send them. Other nodes can read a channel message, so use direct messages
+  for anything private, and remember that anything sent may be kept by the people who receive it.</li>
+  <li><b>Your position</b> is saved on the card when you set it. It is not sent unless you put it in a report and send that, or
+  share it on the mesh yourself. MESHDECK does not broadcast your position.</li>
+  <li><b>Positions of other nodes</b> are received and shown on the map, but not passed on.</li>
+  <li><b>Map and place data</b> on the card is only what you copied there.</li>
+</ul>
+<div class="warn">Before sharing a screenshot, a report, a notes file or a card, check it for places, grid references and
+names. The screenshots include whatever is on screen, and Ctrl+P does not blur anything.</div>
+
+<h1>19. Troubleshooting</h1>
+<table>
+  <tr><th>What you see</th><th>What to do</th></tr>
+  <tr><td>NO RADIO in MESSAGES or the status bar</td><td>Plug the Unit C6L into the USB-A port and wait a few seconds. MESH CONNECTING means it is starting.</td></tr>
+  <tr><td>NO STORAGE, or an empty FILES, MAP or LIBRARY</td><td>The card is missing or not readable. Check it is FAT32 and fully inserted, then restart.</td></tr>
+  <tr><td>NO KEYBOARD in the status bar</td><td>The physical keyboard is not connected. Touch still works for tiles and buttons.</td></tr>
+  <tr><td>LOCKED</td><td>Type the PIN. After several wrong PINs, wait for the time shown before trying again.</td></tr>
+  <tr><td>A screen does not respond to keys</td><td>Press Esc to go back one step, then try again. If the whole deck stops responding, restart it with the Tab5's power switch or reset button.</td></tr>
+  <tr><td>NOT IMPORTED: ... when importing an EPUB</td><td>The message gives the reason (for example, no container file, or no readable text). The file is not changed.</td></tr>
+  <tr><td>NO MAP PACK, or NO PLACE INDEX</td><td>No .map file, or no places.txt, in MESHDECK/maps. Check the folder and file names (section 7.2), then restart.</td></tr>
+  <tr><td>NO MAP DATA HERE AT THIS ZOOM</td><td>The view is outside your map packs. Zoom out, or search for a place in your area.</td></tr>
+  <tr><td>The map is slow the first time an area is shown</td><td>The first view reads the tiles from the card. Later views of the same area are quick.</td></tr>
+</table>
+
+<h1>20. Capabilities at a glance</h1>
+<table>
+  <tr><th>Area</th><th>Capability</th></tr>
+  <tr><td>Shell</td><td>Eleven-tile home, key and touch navigation, status bar, hint line, screenshots, colour themes, boot splash, home information panel.</td></tr>
+  <tr><td>Security</td><td>PIN (4 to 12 digits), salted hash, auto-lock, lock now, wrong-PIN waits.</td></tr>
+  <tr><td>Messages</td><td>Channel and direct messages over Meshtastic, delivery states, nodes, nicknames, delete conversations.</td></tr>
+  <tr><td>Map</td><td>Offline OS maps with zoom and pan, grid lines, place search, setting your position, node positions and distances.</td></tr>
+  <tr><td>Library</td><td>Built-in reference cards, PDF and EPUB book reader with contents, search and bookmarks.</td></tr>
+  <tr><td>Logbook</td><td>Field log, four report forms saved on the card, inventory with expiry, notes.</td></tr>
+  <tr><td>Files</td><td>Browse, rename, copy, delete, view pictures, EPUB import as a book.</td></tr>
+  <tr><td>Terminal</td><td>Eight commands with help text.</td></tr>
+  <tr><td>Settings and diagnostics</td><td>Theme, brightness, clock, about and licences; live battery and system figures; touch test, key log and radio pages.</td></tr>
+  <tr><td>Tools</td><td>Timer, stopwatch and calculator.</td></tr>
+  <tr><td>Games</td><td>RALLY, SEA BATTLE and KLONDIKE, with best scores on the card.</td></tr>
+</table>
+
+<h1>21. For developers: building, testing and the code layout</h1>
+<h2>21.1 Building</h2>
+<p>MESHDECK's core is plain C++17 with no Arduino or ESP-IDF code, shared by the Tab5 firmware, a desktop simulator and
+the unit tests. The repository's README gives the commands:</p>
+<ul>
+  <li><code>cmake -S . -B build</code> then <code>cmake --build build</code>, and <code>ctest --test-dir build</code> for the tests.</li>
+  <li>The simulator is <code>build/platform/sim/meshdeck-sim</code>. It runs the same screens in a window.
+  The Tab5 firmware builds with PlatformIO: <code>pio run -d platform/tab5</code>.</li>
+</ul>
+<h2>21.2 Code layout</h2>
+<table>
+  <tr><th>Folder</th><th>Contents</th></tr>
+  <tr><td>core/kernel/</td><td>Events, settings, storage and paths, the journal (append-only log), the clock.</td></tr>
+  <tr><td>core/services/</td><td>Mesh, position, power, security, contacts, inventory, terminal, high scores.</td></tr>
+  <tr><td>core/formats/</td><td>Map packs, book packs, images, the zip reader, EPUB import, reports, OS grid conversion.</td></tr>
+  <tr><td>core/games/</td><td>The rules of RALLY (pong), SEA BATTLE and KLONDIKE, with no screen code.</td></tr>
+  <tr><td>core/ui/ and core/apps/</td><td>The shell, the overlays (lock, setup, splash) and each app's screens.</td></tr>
+  <tr><td>platform/tab5/</td><td>The Tab5 firmware: display, keyboard, touch, radio, battery, SD card, the EPUB and PPA drivers.</td></tr>
+  <tr><td>platform/sim/</td><td>The desktop simulator.</td></tr>
+  <tr><td>tests/</td><td>Unit tests, one file per area (more than 100 cases).</td></tr>
+  <tr><td>docs/</td><td>Architecture, file formats (journal, map pack, book pack), hardware notes, power, security, roadmap and this manual.</td></tr>
+</table>
+<h2>21.3 Standards the code follows</h2>
+<ul>
+  <li>Every value that is not known is shown as not known. No invented numbers.</li>
+  <li>Writes to the card are safe against power loss: a temporary file is written and then renamed.</li>
+  <li>Game and calculation rules are kept apart from the screens, so they can be tested without a display.</li>
+  <li>MESHDECK's own code builds with no compiler warnings. A full clean build of the Tab5 firmware can still show one warning from the vendor SPI driver.</li>
+</ul>
+
+<h1>22. Licence, credits and third-party software</h1>
+<p>MESHDECK is released under the MIT licence (see the LICENSE file). Bundled libraries keep their own licences, listed in
+THIRD_PARTY.md. The embedded fonts and graphics are used under their own terms.</p>
+<p>Map data: contains OS data &copy; Crown copyright and database right, used under the Open Government Licence.</p>
+<p>MESHDECK was created by RabzLabz and Claude. It is a civilian resilience application, aimed to help civilians during times
+of natural disaster and civil unrest. Stay prepared, stay strong.</p>
+
+</body>
+</html>

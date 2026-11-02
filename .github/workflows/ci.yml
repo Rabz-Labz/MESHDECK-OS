@@ -1,0 +1,68 @@
+# CI: on every push and pull request, build the core and run its unit tests on Linux and Windows,
+# and build the Tab5 firmware. The firmware image is kept as a build artifact.
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  tests-linux:
+    name: tests (Linux, GCC)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install Ninja and SDL2 (for the simulator)
+        run: sudo apt-get update && sudo apt-get install -y ninja-build libsdl2-dev
+      - name: Configure
+        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
+      - name: Build
+        run: cmake --build build
+      - name: Test
+        run: ctest --test-dir build --output-on-failure
+
+  # Windows uses MinGW-w64 GCC (via MSYS2), the same toolchain as local Windows builds. The core
+  # uses POSIX <dirent.h>, which MSVC doesn't provide.
+  tests-windows:
+    name: tests (Windows, MinGW)
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          install: >-
+            mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-ninja
+            mingw-w64-ucrt-x86_64-SDL2
+      - name: Configure
+        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
+      - name: Build
+        run: cmake --build build
+      - name: Test
+        run: ctest --test-dir build --output-on-failure
+
+  firmware:
+    name: firmware (Tab5)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Cache PlatformIO
+        uses: actions/cache@v4
+        with:
+          path: ~/.platformio
+          key: pio-${{ hashFiles('platform/tab5/platformio.ini') }}
+      - name: Install PlatformIO
+        run: pip install platformio
+      - name: Build
+        run: pio run -d platform/tab5
+      - name: Keep the firmware image
+        uses: actions/upload-artifact@v4
+        with:
+          name: meshdeck-tab5-firmware
+          path: platform/tab5/.pio/build/tab5/firmware.bin

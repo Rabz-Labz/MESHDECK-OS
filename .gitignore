@@ -1,0 +1,45 @@
+# Builds
+build/
+build-*/
+.pio/
+*.o
+*.obj
+*.exe
+*.bin
+*.elf
+*.map.tmp
+
+# Secrets and personal data: never commit
+keys/
+*.pem
+*.blob
+*-private*
+area.txt
+maps-src/
+books-out/
+*.jnl
+security.bin
+meshdeck-settings.txt
+sim-sd/
+sim-flash/
+
+# Large generated data (built by tools/, not stored in git)
+*.map
+*.bk
+*.mbtiles
+
+# Editors and OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+maps-out/
+sim-maps/
+
+# Simulator screenshots and simulator data (local output, may hold test secrets)
+shots/
+sim-shots/
+.secret-*
+**/.secret-*

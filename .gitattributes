@@ -1,0 +1,6 @@
+# Store and check out text files with LF endings on every OS, so diffs stay clean.
+* text=auto eol=lf
+*.bat text eol=crlf
+*.png binary
+*.jpg binary
+*.bin binary

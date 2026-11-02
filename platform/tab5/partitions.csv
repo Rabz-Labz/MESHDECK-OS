@@ -1,0 +1,11 @@
+# MESHDECK M3 A/B layout (16 MB). Never erase or flash without backing up the device first.
+# nvs keeps its old size and place (system settings + MESHDECK settings survive).
+# otadata replaces the unused phy_init area. myne3data and fielddata keep their exact offsets.
+# Name, Type, SubType, Offset, Size
+nvs,data,nvs,0x9000,0x5000
+otadata,data,ota,0xE000,0x2000
+ota_0,app,ota_0,0x10000,0x600000
+ota_1,app,ota_1,0x610000,0x600000
+storage,data,littlefs,0xC10000,0x300000
+myne3data,data,nvs,0xF10000,0x40000
+fielddata,data,nvs,0xF50000,0x40000
