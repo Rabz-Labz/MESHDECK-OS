@@ -6,6 +6,11 @@
 // which resets an ESP32 radio), keep one IN transfer running into a ring buffer, and send writes
 // one at a time. Ported from MESHDECK 1.x, where it was tested with a Unit C6L; the power-off
 // feature was left out (MESHDECK 2 never powers hardware down).
+//
+// Recovery: a failed IN transfer halts its endpoint, which is flushed and cleared before reading
+// again. A device is only freed (and its port only takes a new one) once it is closed, so close
+// cancels queued transfers first. If the radio doesn't come back within 10 s of going, the root
+// port is power-cycled through the host library (up to 3 times), which makes it enumerate again.
 #pragma once
 #include <stdint.h>
 #include <string>
@@ -18,6 +23,9 @@ public:
     bool write(const uint8_t* data, int len);
     std::string describe() const;      // e.g. "303A:1001 CDC" or "NONE"
     std::string diagnostics() const;   // byte counters and the first bytes received
+    std::string hostInfo() const;      // devices and clients the USB host library knows of
+    std::string log() const;           // the last 4 KB of ESP-IDF log lines (USB host errors among them)
+    void resetPort() { resetRequested_ = true; }   // close the radio and power-cycle the USB-A port
 
     // Internal (called from the USB tasks).
     void onClientEvent(int event, uint8_t address);
@@ -26,12 +34,25 @@ public:
     void clientLoop();
 
 private:
-    void openDevice(uint8_t address);
+    bool openDevice(uint8_t address);
     void closeDevice();
+    void recoverIn();
+    void watchdog();
 
     volatile bool ready_ = false;
     volatile uint8_t pendingAddress_ = 0;
     volatile bool gone_ = false;
+    volatile bool inHalted_ = false;   // an IN transfer failed: the endpoint is halted until cleared
+    volatile bool outHalted_ = false;  // a write failed or timed out: clear the OUT endpoint
+    volatile bool resetRequested_ = false;
+    uint8_t openTries_ = 0;
+    uint32_t retryAtMs_ = 0, goneAtMs_ = 0;
+    uint8_t portCycles_ = 0;           // root port power cycles since the radio went (at most 3)
+    uint8_t errStreak_ = 0;            // IN recoveries since the last good transfer
+
+    // Event counters for the RADIO diagnostics line.
+    volatile uint32_t newDevs_ = 0, gones_ = 0, recoveries_ = 0, totalCycles_ = 0;
+    int openErr_ = 0, closeErr_ = 0;
     void* client_ = nullptr;
     void* device_ = nullptr;
     void* inXfer_ = nullptr;

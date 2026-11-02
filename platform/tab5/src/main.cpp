@@ -61,6 +61,8 @@ void readTouch(lv_indev_t*, lv_indev_data_t* data) {
 //   SCREENSHOT        same as Ctrl+P
 //   MESH              radio link, channels, nodes and the last 10 messages with their states
 //   RADIO             USB radio driver details
+//   RADIO RESET       power-cycle the USB-A port so the radio enumerates again
+//   RADIO LOG         the last 4 KB of ESP-IDF log lines (the USB host stack's errors)
 //   UPLOAD <name> <bytes> [resume]   receive a map pack (<name>.map) or the place index
 //                     (places.txt) into MESHDECK/maps; tools/upload.py sends it
 void serialCommands();
@@ -156,8 +158,15 @@ void serialCommands() {
             long size = s1 > 0 ? line.substring(s1 + 1, s2 > 0 ? s2 : line.length()).toInt() : 0;
             receiveUpload(name, size, s2 > 0 && line.substring(s2 + 1) == "resume");
         } else if (line == "RADIO") {
-            Serial.printf("RADIO usb=\"%s\" %s mesh=\"%s\" frames=%u\n", usbRadio.describe().c_str(),
-                          usbRadio.diagnostics().c_str(), mesh.linkText(), (unsigned)mesh.framesIn());
+            Serial.printf("RADIO usb=\"%s\" %s %s mesh=\"%s\" frames=%u\n", usbRadio.describe().c_str(),
+                          usbRadio.diagnostics().c_str(), usbRadio.hostInfo().c_str(), mesh.linkText(),
+                          (unsigned)mesh.framesIn());
+        } else if (line == "RADIO RESET") {
+            usbRadio.resetPort();
+            Serial.println("RADIO RESET: USB-A PORT POWER-CYCLING");
+        } else if (line == "RADIO LOG") {
+            Serial.print(usbRadio.log().c_str());
+            Serial.println("\nRADIO LOG END");
         } else if (line == "MESH") {
             const auto& st = mesh.stats();
             Serial.printf("MESH link=\"%s\" region=%s my_node=%08X nodes=%u messages=%u frames=%u packets=%u "

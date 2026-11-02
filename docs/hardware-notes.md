@@ -33,6 +33,14 @@ are writing your own Tab5 firmware, these may save you a day or two.
 - **Don't cut the USB-A 5 V supply behind the USB host stack's back.** Doing so gave "Root port
   reset failed" and a reboot. Use the host library's own `usb_host_lib_set_root_port_power()` to
   power the port down and up.
+- **A half-seated plug powers the C6L without connecting it.** USB-A power pins are longer than the
+  data pins: the C6L lit up but the host saw no device at all (`RADIO` showed `host_devices=0`, and
+  `RADIO LOG` was empty). Pushing the plug fully home fixed it. Before that, the link threw IN
+  transfer errors and dropped.
+- **A failed transfer halts its endpoint.** Resubmitting onto a halted endpoint queues transfers that
+  never run, the interface can't then be released, and a device that isn't closed is never freed,
+  so the port never takes a new one. `usb_radio.cpp` flushes and clears the endpoint, cancels
+  transfers before closing, and power-cycles the root port if the radio doesn't come back.
 
 ## Meshtastic firmware (2.7.26 on the C6L)
 
