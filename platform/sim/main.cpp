@@ -195,10 +195,32 @@ int takeShots(meshdeck::Shell& shell, const std::string& dir) {
     settle();
     shot("02b-map");
     type("s");
-    type("peebles");
+    type("exeter");
+    for (int i = 0; i < 8; i++) { shell.tick(); lv_timer_handler(); SDL_Delay(100); }   // the search waits 300 ms
     shot("02c-map-search");
     type("\n");
     shot("02d-map-place");
+    type("++");   // closer in on the place found
+    shot("02e-map-place-zoomed");
+    // POSITION (two back from the map in focus order): a grid reference in central Exeter, the
+    // maps guide's example area, then C centres the map on YOU.
+    shell.key(LV_KEY_PREV);
+    shell.key(LV_KEY_PREV);
+    shell.key(LV_KEY_ENTER);
+    settle();
+    type("SX 9235 9290");
+    shot("02f-map-position");
+    type("\n");
+    type("c");
+    shot("02g-map-you");
+    type("++");   // street level, from the local pack
+    shot("02i-map-streets");
+    shell.key(LV_KEY_PREV);   // NODES, one back from the map
+    shell.key(LV_KEY_ENTER);
+    settle();
+    shot("02h-map-nodes");
+    shell.key(LV_KEY_ESC);
+    settle();
     shell.home();
     settle();
     shell.open(3);   // LOGBOOK: the field log
@@ -312,6 +334,64 @@ int takeShots(meshdeck::Shell& shell, const std::string& dir) {
     type("\n");
     shot("08d-settings-credits");
     shell.key(LV_KEY_ESC);
+    shell.key(LV_KEY_ESC);
+    settle();
+    shell.home();
+    settle();
+    shell.open(7);   // DIAGNOSTICS: the touch test, the key log (with a few keys) and the radio page
+    settle();
+    shell.key(LV_KEY_ENTER);   // the first button: TOUCH TEST
+    settle();
+    shot("08b-diagnostics-touch-test");
+    shell.key(LV_KEY_ESC);
+    settle();
+    shell.key(LV_KEY_RIGHT);   // KEY LOG
+    shell.key(LV_KEY_ENTER);
+    settle();
+    type("MD");
+    shell.key(LV_KEY_UP);
+    shell.key('1', meshdeck::kModCtrl);
+    shell.key(LV_KEY_ENTER);
+    settle();
+    shot("08c-diagnostics-key-log");
+    shell.key(LV_KEY_ESC);
+    settle();
+    shell.key(LV_KEY_RIGHT);   // RADIO
+    shell.key(LV_KEY_RIGHT);
+    shell.key(LV_KEY_ENTER);
+    settle();
+    shot("08d-diagnostics-radio");
+    shell.key(LV_KEY_ESC);
+    settle();
+    shell.home();
+    settle();
+    shell.setEmconLevel(1);   // SECURITY with EMCON at RX ONLY, then back to NORMAL
+    shell.open(8);
+    settle();
+    shot("09b-security-emcon-rx-only");
+    shell.setEmconLevel(0);
+    shell.home();
+    settle();
+    shell.open(10);   // TOOLS: the timer running, the stopwatch with a lap, a calculation
+    settle();
+    type("1");
+    type(" ");
+    for (int i = 0; i < 25; i++) { shell.tick(); lv_timer_handler(); SDL_Delay(100); }
+    shot("11b-tools-timer");
+    shell.key(LV_KEY_ESC);
+    settle();
+    type("2");
+    type(" ");
+    for (int i = 0; i < 32; i++) { shell.tick(); lv_timer_handler(); SDL_Delay(100); }
+    type("l");
+    for (int i = 0; i < 21; i++) { shell.tick(); lv_timer_handler(); SDL_Delay(100); }
+    type("l");
+    shot("11c-tools-stopwatch");
+    shell.key(LV_KEY_ESC);
+    settle();
+    type("3");
+    type("12*3+4=");
+    shot("11d-tools-calculator");
     shell.key(LV_KEY_ESC);
     settle();
     shell.home();

@@ -51,9 +51,27 @@
   code { color: #B8FFC8; overflow-wrap: anywhere; }
   ol, ul { padding-left: 26px; }
   ol li::marker, ul li::marker { color: #22B04A; }
+
+  /* Screenshots: framed like a panel, with numbered pointer arrows drawn over them in SVG. */
+  .fig { margin: 12px 0 16px; page-break-inside: avoid; }
+  .fig .frame { position: relative; border: 2px solid #33FF66; background: #030803; line-height: 0; }
+  .fig img { display: block; width: 100%; height: auto; }
+  .fig svg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+  .fig figcaption { font-size: 12pt; line-height: 1.2; color: #22B04A; margin-top: 4px; }
+  .fig figcaption .n { color: #030803; background: #7CFF8A; padding: 0 4px; margin-right: 2px; }
+  .figs-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0 16px; page-break-inside: avoid; }
+  .figs-2 .fig { margin: 0; }
+  .ptr-halo { stroke: #030803; stroke-width: 14; fill: none; stroke-linecap: round; }
+  .ptr { stroke: #7CFF8A; stroke-width: 6; fill: none; stroke-linecap: round; marker-end: url(#ptr-head); }
+  .ptr-tag rect { fill: #030803; stroke: #7CFF8A; stroke-width: 4; }
+  .ptr-tag text { fill: #B8FFC8; font-family: "VT323", monospace; font-size: 40px; text-anchor: middle; }
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <marker id="ptr-head" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.6" markerHeight="3.6" orient="auto">
+    <path d="M0,0 L10,5 L0,10 z" fill="#7CFF8A" stroke="#030803" stroke-width="1"/>
+  </marker></defs></svg>
 
 <div class="cover">
   <h1>MESHDECK</h1>
@@ -135,6 +153,9 @@ changed later.</p>
 <p>After setup you reach the home screen (section 4). The splash (section 15) shows at every power-on before
 that.</p>
 
+<div class="figs-2"><figure class="fig"><div class="frame"><img src="images/setup-1-welcome.png" alt=""></div><figcaption>First start: the welcome screen.</figcaption></figure><figure class="fig"><div class="frame"><img src="images/setup-2-clock.png" alt=""></div><figcaption>Setting the clock (UK time; GMT or BST is worked out).</figcaption></figure></div>
+<div class="figs-2"><figure class="fig"><div class="frame"><img src="images/setup-3-pin.png" alt=""></div><figcaption>Choosing a PIN, or skipping it.</figcaption></figure><figure class="fig"><div class="frame"><img src="images/setup-4-done.png" alt=""></div><figcaption>Setup done.</figcaption></figure></div>
+
 <h1>4. The home screen and the keys</h1>
 <p>The home screen has eleven tiles, each opened by tapping it or pressing its key:</p>
 <table>
@@ -153,6 +174,8 @@ that.</p>
 </table>
 <p>The empty space beside the tiles shows the radio and the deck (section 15). The last space shows the time,
 the date and the battery time left.</p>
+
+<figure class="fig"><div class="frame"><img src="images/00-home.png" alt=""><svg viewBox="0 0 1280 720" preserveAspectRatio="none" aria-hidden="true"><line class="ptr-halo" x1="890" y1="157" x2="927" y2="51"/><line class="ptr" x1="890" y1="157" x2="927" y2="51"/><g class="ptr-tag"><rect x="856" y="161" width="48" height="48"/><text x="880" y="198">1</text></g><line class="ptr-halo" x1="264" y1="158" x2="283" y2="119"/><line class="ptr" x1="264" y1="158" x2="283" y2="119"/><g class="ptr-tag"><rect x="226" y="161" width="48" height="48"/><text x="250" y="198">2</text></g><line class="ptr-halo" x1="1174" y1="540" x2="1129" y2="567"/><line class="ptr" x1="1174" y1="540" x2="1129" y2="567"/><g class="ptr-tag"><rect x="1176" y="501" width="48" height="48"/><text x="1200" y="538">3</text></g><line class="ptr-halo" x1="552" y1="649" x2="439" y2="687"/><line class="ptr" x1="552" y1="649" x2="439" y2="687"/><g class="ptr-tag"><rect x="556" y="616" width="48" height="48"/><text x="580" y="653">4</text></g></svg></div><figcaption>The home screen. <span class="n">1</span> the status bar: radio, battery and time left, clock. <span class="n">2</span> each tile's key. <span class="n">3</span> the home information panel. <span class="n">4</span> the hint line, which always says what the keys do on the current screen.</figcaption></figure>
 
 <h2>4.1 Keys</h2>
 <table>
@@ -192,6 +215,9 @@ left returns one step. Where a screen needs typed text, use the physical keyboar
 stops someone using the deck, not someone with a card reader. A four-digit PIN can be guessed over days
 with the waits above, so use six or more digits if that matters.</div>
 
+<figure class="fig"><div class="frame"><img src="images/09b-security-emcon-rx-only.png" alt=""><svg viewBox="0 0 1280 720" preserveAspectRatio="none" aria-hidden="true"><line class="ptr-halo" x1="327" y1="580" x2="325" y2="558"/><line class="ptr" x1="327" y1="580" x2="325" y2="558"/><g class="ptr-tag"><rect x="306" y="586" width="48" height="48"/><text x="330" y="623">1</text></g><line class="ptr-halo" x1="1187" y1="242" x2="1177" y2="263"/><line class="ptr" x1="1187" y1="242" x2="1177" y2="263"/><g class="ptr-tag"><rect x="1176" y="191" width="48" height="48"/><text x="1200" y="228">2</text></g><line class="ptr-halo" x1="1232" y1="588" x2="1232" y2="530"/><line class="ptr" x1="1232" y1="588" x2="1232" y2="530"/><g class="ptr-tag"><rect x="1208" y="594" width="48" height="48"/><text x="1232" y="631">3</text></g></svg></div><figcaption>SECURITY. <span class="n">1</span> the PIN: lock now, change or remove it. <span class="n">2</span> the auto-lock time. <span class="n">3</span> the radio emissions (EMCON) level, here RX ONLY, with what it means below.</figcaption></figure>
+<div class="figs-2"><figure class="fig"><div class="frame"><img src="images/lock-screen.png" alt=""></div><figcaption>The lock screen: type the PIN on the keyboard or the pad.</figcaption></figure><figure class="fig"><div class="frame"><img src="images/lock-wrong-pin.png" alt=""></div><figcaption>A wrong PIN is counted; after three, each one makes you wait.</figcaption></figure></div>
+
 <h1>6. MESSAGES: mesh chat</h1>
 <p>MESSAGES talks to other Meshtastic nodes through the Unit C6L radio. It needs the radio plugged into the USB-A
 port; without it the screen says NO RADIO and explains what to connect.</p>
@@ -203,6 +229,9 @@ port; without it the screen says NO RADIO and explains what to connect.</p>
   <tr><td>NODES</td><td>Every node the radio has heard. Tap one to start a direct conversation with it.</td></tr>
   <tr><td>CONTACT</td><td>Give a node a nickname and a note. The nickname is shown everywhere instead of its short name.</td></tr>
 </table>
+<div class="figs-2"><figure class="fig"><div class="frame"><img src="images/01b-messages-chats.png" alt=""></div><figcaption>MESSAGES: the chats, with unread counts.</figcaption></figure><figure class="fig"><div class="frame"><img src="images/01d-messages-nodes.png" alt=""></div><figcaption>NEW CHAT: the nodes the radio has heard.</figcaption></figure></div>
+<figure class="fig"><div class="frame"><img src="images/01c-messages-thread.png" alt=""><svg viewBox="0 0 1280 720" preserveAspectRatio="none" aria-hidden="true"><line class="ptr-halo" x1="623" y1="360" x2="682" y2="309"/><line class="ptr" x1="623" y1="360" x2="682" y2="309"/><g class="ptr-tag"><rect x="576" y="356" width="48" height="48"/><text x="600" y="393">1</text></g><line class="ptr-halo" x1="395" y1="536" x2="308" y2="591"/><line class="ptr" x1="395" y1="536" x2="308" y2="591"/><g class="ptr-tag"><rect x="396" y="496" width="48" height="48"/><text x="420" y="533">2</text></g><line class="ptr-halo" x1="1117" y1="525" x2="1154" y2="582"/><line class="ptr" x1="1117" y1="525" x2="1154" y2="582"/><g class="ptr-tag"><rect x="1076" y="476" width="48" height="48"/><text x="1100" y="513">3</text></g><line class="ptr-halo" x1="1026" y1="185" x2="1091" y2="147"/><line class="ptr" x1="1026" y1="185" x2="1091" y2="147"/><g class="ptr-tag"><rect x="976" y="176" width="48" height="48"/><text x="1000" y="213">4</text></g></svg></div><figcaption>A channel thread. <span class="n">1</span> each message's state, honestly: DELIVERED only when the mesh confirms it. <span class="n">2</span> type here and press Enter. <span class="n">3</span> SEND by touch. <span class="n">4</span> DELETE removes the whole thread.</figcaption></figure>
+
 <h2>6.2 Using it</h2>
 <ul>
   <li>Type in the box at the bottom and press Enter (or SEND) to send.</li>
@@ -223,6 +252,11 @@ port; without it the screen says NO RADIO and explains what to connect.</p>
   <tr><td>NODES</td><td>Every node that has sent a position, with its distance and bearing from you.</td></tr>
 </table>
 <div class="note">Map packs and the place list are not supplied in the download. You make them for your own area, as below.</div>
+
+<figure class="fig"><div class="frame"><img src="images/02e-map-place-zoomed.png" alt=""><svg viewBox="0 0 1280 720" preserveAspectRatio="none" aria-hidden="true"><line class="ptr-halo" x1="282" y1="236" x2="256" y2="200"/><line class="ptr" x1="282" y1="236" x2="256" y2="200"/><g class="ptr-tag"><rect x="276" y="236" width="48" height="48"/><text x="300" y="273">1</text></g><line class="ptr-halo" x1="948" y1="185" x2="948" y2="152"/><line class="ptr" x1="948" y1="185" x2="948" y2="152"/><g class="ptr-tag"><rect x="924" y="191" width="48" height="48"/><text x="948" y="228">2</text></g><line class="ptr-halo" x1="1110" y1="316" x2="1156" y2="316"/><line class="ptr" x1="1110" y1="316" x2="1156" y2="316"/><g class="ptr-tag"><rect x="1056" y="292" width="48" height="48"/><text x="1080" y="329">3</text></g><line class="ptr-halo" x1="446" y1="334" x2="566" y2="400"/><line class="ptr" x1="446" y1="334" x2="566" y2="400"/><g class="ptr-tag"><rect x="396" y="296" width="48" height="48"/><text x="420" y="333">4</text></g><line class="ptr-halo" x1="300" y1="615" x2="300" y2="626"/><line class="ptr" x1="300" y1="615" x2="300" y2="626"/><g class="ptr-tag"><rect x="276" y="561" width="48" height="48"/><text x="300" y="598">5</text></g></svg></div><figcaption>MAP, after searching for Exeter (example maps made with the steps in 7.2). <span class="n">1</span> the grid reference of the centre, the scale, the grid size and the zoom level. <span class="n">2</span> SEARCH, POSITION and NODES. <span class="n">3</span> zoom in and out, and YOU centres on your position. <span class="n">4</span> the place found. <span class="n">5</span> the Ordnance Survey attribution, always shown.</figcaption></figure>
+<div class="figs-2"><figure class="fig"><div class="frame"><img src="images/02c-map-search.png" alt=""></div><figcaption>SEARCH: type two letters or more, then choose a place.</figcaption></figure><figure class="fig"><div class="frame"><img src="images/02f-map-position.png" alt=""></div><figcaption>POSITION: type a grid reference or a latitude and longitude, or use a node's GPS.</figcaption></figure></div>
+<figure class="fig"><div class="frame"><img src="images/02i-map-streets.png" alt=""><svg viewBox="0 0 1280 720" preserveAspectRatio="none" aria-hidden="true"><line class="ptr-halo" x1="665" y1="361" x2="608" y2="399"/><line class="ptr" x1="665" y1="361" x2="608" y2="399"/><g class="ptr-tag"><rect x="666" y="321" width="48" height="48"/><text x="690" y="358">1</text></g><line class="ptr-halo" x1="1118" y1="450" x2="1157" y2="435"/><line class="ptr" x1="1118" y1="450" x2="1157" y2="435"/><g class="ptr-tag"><rect x="1066" y="436" width="48" height="48"/><text x="1090" y="473">2</text></g></svg></div><figcaption>Street level (6.25 m per pixel) from a local pack. <span class="n">1</span> you, once a position is set. <span class="n">2</span> YOU, or the C key, centres the map on you.</figcaption></figure>
+<div class="figs-2"><figure class="fig"><div class="frame"><img src="images/02b-map.png" alt=""></div><figcaption>Mesh nodes with a position are shown on the map (here the test node TS01).</figcaption></figure><figure class="fig"><div class="frame"><img src="images/02h-map-nodes.png" alt=""></div><figcaption>NODES: each node's grid reference, distance and bearing from you.</figcaption></figure></div>
 
 <h2>7.2 Getting maps for your own area</h2>
 <p>You make maps on a PC from free Ordnance Survey data, with the Python tools in the repository's tools folder. The full guide,
@@ -255,6 +289,8 @@ the Isle of Man or the Channel Islands. The example below is Exeter; use your ow
 <p>CARDS holds built-in UK reference cards: emergency contacts, three-day supplies, flood safety, power and gas
 safety, water interruption and food in a power cut. The cards are searchable. The contact numbers are
 reference information and are not a guarantee that a service is available.</p>
+<figure class="fig"><div class="frame"><img src="images/03-library-cards.png" alt=""></div><figcaption>LIBRARY: the built-in reference cards.</figcaption></figure>
+
 <h2>8.2 Books</h2>
 <p>BOOKS is the shelf of every book in MESHDECK/books. Books come in two kinds:</p>
 <ul>
@@ -274,6 +310,8 @@ the library's empty-shelf message. That tool is not in the repository yet, so PD
   <li>Entries are added and never edited, so the record stays as it was written. The newest 200 are listed; all are kept.</li>
   <li>Entries are kept in MESHDECK/log/field.jnl. The file is designed so a power cut loses at most the entry being written.</li>
 </ul>
+<div class="figs-2"><figure class="fig"><div class="frame"><img src="images/04-logbook.png" alt=""></div><figcaption>LOGBOOK: its four parts. Press 1 to 4 or tap one.</figcaption></figure><figure class="fig"><div class="frame"><img src="images/04b-logbook-log.png" alt=""></div><figcaption>LOG ENTRIES: the field log, newest first.</figcaption></figure></div>
+
 <h2>9.2 REPORTS: standard forms</h2>
 <p>Four forms follow the usual field mnemonics:</p>
 <table>
@@ -285,6 +323,8 @@ the library's empty-shelf message. That tool is not in the repository yet, so PD
 </table>
 <p>Pick a form, tap a box and type. The preview shows the report as it will be saved. SAVE writes the report to
 MESHDECK/reports as a text file. Reports are not sent over the mesh; pass a saved report on by hand if you need to.</p>
+<figure class="fig"><div class="frame"><img src="images/04d-logbook-report-form.png" alt=""><svg viewBox="0 0 1280 720" preserveAspectRatio="none" aria-hidden="true"><line class="ptr-halo" x1="575" y1="504" x2="532" y2="475"/><line class="ptr" x1="575" y1="504" x2="532" y2="475"/><g class="ptr-tag"><rect x="576" y="496" width="48" height="48"/><text x="600" y="533">1</text></g><line class="ptr-halo" x1="976" y1="312" x2="908" y2="260"/><line class="ptr" x1="976" y1="312" x2="908" y2="260"/><g class="ptr-tag"><rect x="976" y="306" width="48" height="48"/><text x="1000" y="343">2</text></g><line class="ptr-halo" x1="835" y1="433" x2="748" y2="372"/><line class="ptr" x1="835" y1="433" x2="748" y2="372"/><g class="ptr-tag"><rect x="836" y="426" width="48" height="48"/><text x="860" y="463">3</text></g></svg></div><figcaption>Filling in a report. <span class="n">1</span> choose a box. <span class="n">2</span> type into it. <span class="n">3</span> SAVE writes the report to the card.</figcaption></figure>
+
 <h2>9.3 INVENTORY: kit and supply lists</h2>
 <ul>
   <li>Keep a list per location (for example GRAB BAG, CAR, STORE CUPBOARD). Add a location with the box on the right.</li>
@@ -294,9 +334,13 @@ MESHDECK/reports as a text file. Reports are not sent over the mesh; pass a save
   <li>CHECKED NOW records when a location was last checked. It refuses if the clock is not set.</li>
 </ul>
 <p>The inventory is saved to MESHDECK/inventory.</p>
+<div class="figs-2"><figure class="fig"><div class="frame"><img src="images/04e-logbook-inventory.png" alt=""></div><figcaption>INVENTORY: the locations.</figcaption></figure><figure class="fig"><div class="frame"><img src="images/04f-logbook-inventory-items.png" alt=""></div><figcaption>A location's items, with quantities and dates.</figcaption></figure></div>
+
 <h2>9.4 NOTES</h2>
 <p>Plain-text notes, one file each, in MESHDECK/notes. Type a note and press SAVE NOTE. Tap a note to read it.
 DELETE removes a note after a second press. Notes are text only; use the reports for forms.</p>
+
+<figure class="fig"><div class="frame"><img src="images/04g-logbook-notes.png" alt=""></div><figcaption>NOTES: typing a new note.</figcaption></figure>
 
 <h1>10. FILES: your files, screenshots and imports</h1>
 <p>FILES browses MESHDECK/Files on the card. The Inbox and Screenshots folders are at the top.</p>
@@ -314,6 +358,8 @@ DELETE removes a note after a second press. Notes are text only; use the reports
 long books are cut short at about 4 MB of text, and the screen says so. Only EPUB files are imported; PDF books are not
 imported on the deck yet.</p>
 
+<figure class="fig"><div class="frame"><img src="images/05-files.png" alt=""></div><figcaption>FILES: screenshots, the inbox and your files.</figcaption></figure>
+
 <h1>11. TERMINAL: typed commands</h1>
 <p>TERMINAL is a command line. Type a command and press Enter or RUN. The answer appears above the command line,
 and the newest lines are kept. Command names are not case-sensitive.</p>
@@ -330,6 +376,8 @@ and the newest lines are kept. Command names are not case-sensitive.</p>
 </table>
 <p>An unknown word gets "UNKNOWN COMMAND ... TYPE HELP". The terminal only reports; it changes no settings and no data.</p>
 
+<figure class="fig"><div class="frame"><img src="images/07-terminal.png" alt=""></div><figcaption>TERMINAL after typing HELP.</figcaption></figure>
+
 <h1>12. SETTINGS: display, clock and about</h1>
 <table>
   <tr><th>Part</th><th>What it does</th></tr>
@@ -339,6 +387,8 @@ and the newest lines are kept. Command names are not case-sensitive.</p>
 </table>
 <p>Brightness is the only power setting. There is no sleep mode, no screen-off and no power-saving preset (section 16).</p>
 
+<div class="figs-2"><figure class="fig"><div class="frame"><img src="images/08b-settings-display.png" alt=""></div><figcaption>SETTINGS: display (brightness).</figcaption></figure><figure class="fig"><div class="frame"><img src="images/08c-settings-clock.png" alt=""></div><figcaption>SETTINGS: the clock.</figcaption></figure></div>
+
 <h1>13. DIAGNOSTICS: power, system and the test pages</h1>
 <p>DIAGNOSTICS shows the live power figures: battery voltage and current, the one-minute average, and the estimated
 time left. It also shows the system basics: the version, the storage and the memory.</p>
@@ -347,9 +397,15 @@ solid, so a dead spot on the screen stays empty. KEY LOG lists the last keys pre
 RADIO shows the mesh link, your node number, how many nodes have been heard, and the channels. BACK or Esc returns
 to the main page.</p>
 
+<figure class="fig"><div class="frame"><img src="images/08-diagnostics.png" alt=""><svg viewBox="0 0 1280 720" preserveAspectRatio="none" aria-hidden="true"><line class="ptr-halo" x1="472" y1="469" x2="369" y2="428"/><line class="ptr" x1="472" y1="469" x2="369" y2="428"/><g class="ptr-tag"><rect x="476" y="456" width="48" height="48"/><text x="500" y="493">1</text></g><line class="ptr-halo" x1="640" y1="530" x2="640" y2="556"/><line class="ptr" x1="640" y1="530" x2="640" y2="556"/><g class="ptr-tag"><rect x="616" y="476" width="48" height="48"/><text x="640" y="513">2</text></g></svg></div><figcaption>DIAGNOSTICS. <span class="n">1</span> live power figures and the time left. <span class="n">2</span> the test pages: TOUCH TEST, KEY LOG and RADIO.</figcaption></figure>
+<div class="figs-2"><figure class="fig"><div class="frame"><img src="images/08b-diagnostics-touch-test.png" alt=""></div><figcaption>TOUCH TEST: tap every box; a dead spot stays empty.</figcaption></figure><figure class="fig"><div class="frame"><img src="images/08c-diagnostics-key-log.png" alt=""></div><figcaption>KEY LOG: the last keys, newest first, with their codes.</figcaption></figure></div>
+<figure class="fig"><div class="frame"><img src="images/08d-diagnostics-radio.png" alt=""></div><figcaption>RADIO: the mesh link, your node, the nodes heard and the channels.</figcaption></figure>
+
 <h1>14. GAMES: RALLY, SEA BATTLE and KLONDIKE</h1>
 <p>GAMES (tile 0) is a hub of three games with your best score for each. Press 1, 2 or 3, or tap a game. Best
 scores are kept on the card in MESHDECK/games/scores.txt, and only a new best is written.</p>
+
+<figure class="fig"><div class="frame"><img src="images/09-games.png" alt=""></div><figcaption>GAMES: the hub, with your best score on each card.</figcaption></figure>
 
 <h2>14.1 RALLY: pong against the CPU</h2>
 <ul>
@@ -360,6 +416,8 @@ scores are kept on the card in MESHDECK/games/scores.txt, and only a new best is
   <li>Best score: the most points you scored in one match.</li>
 </ul>
 
+<figure class="fig"><div class="frame"><img src="images/09b-rally.png" alt=""></div><figcaption>RALLY: you play the left paddle.</figcaption></figure>
+
 <h2>14.2 SEA BATTLE: fleets against the CPU</h2>
 <ul>
   <li>Each side has five ships (lengths 5, 4, 3, 3 and 2) on a 10 by 10 sea. Both fleets are placed at random when a game starts.</li>
@@ -368,6 +426,8 @@ scores are kept on the card in MESHDECK/games/scores.txt, and only a new best is
   <li>N starts a new fleet. A win is scored as 200 minus the number of shots, so a higher score is better. Only won games are saved.</li>
 </ul>
 <p>Fleets are placed at random. You cannot place your own ships yet.</p>
+
+<div class="figs-2"><figure class="fig"><div class="frame"><img src="images/09c-sea-battle.png" alt=""></div><figcaption>SEA BATTLE: your fleet (left) and the CPU's sea (right).</figcaption></figure><figure class="fig"><div class="frame"><img src="images/09d-sea-battle-fired.png" alt=""></div><figcaption>After a few shots.</figcaption></figure></div>
 
 <h2>14.3 KLONDIKE: draw one</h2>
 <ul>
@@ -380,8 +440,12 @@ scores are kept on the card in MESHDECK/games/scores.txt, and only a new best is
 </ul>
 <p>KLONDIKE is played with the keyboard only at present. Tapping cards is not built yet.</p>
 
+<div class="figs-2"><figure class="fig"><div class="frame"><img src="images/09e-klondike.png" alt=""></div><figcaption>KLONDIKE: a new deal.</figcaption></figure><figure class="fig"><div class="frame"><img src="images/09f-klondike-moved.png" alt=""></div><figcaption>After drawing and moving a card.</figcaption></figure></div>
+
 <h1>14a. TOOLS: timer, stopwatch and calculator</h1>
 <p>TOOLS (tile A) is a hub of three small tools. Press 1, 2 or 3, or tap one. Nothing here is saved to the card.</p>
+
+<figure class="fig"><div class="frame"><img src="images/11-tools.png" alt=""></div><figcaption>TOOLS: the hub. Press 1, 2 or 3.</figcaption></figure>
 
 <h2>14a.1 TIMER</h2>
 <ul>
@@ -389,11 +453,15 @@ scores are kept on the card in MESHDECK/games/scores.txt, and only a new best is
   <li>The status line shows TIME'S UP when the time runs out.</li>
 </ul>
 
+<figure class="fig"><div class="frame"><img src="images/11b-tools-timer.png" alt=""></div><figcaption>TIMER: counting down from the preset.</figcaption></figure>
+
 <h2>14a.2 STOPWATCH</h2>
 <ul>
   <li>START and STOP (or SPACE). LAP records the time so far, and the last eight laps are listed. RESET clears everything.</li>
   <li>Tenths of a second show while it runs.</li>
 </ul>
+
+<figure class="fig"><div class="frame"><img src="images/11c-tools-stopwatch.png" alt=""><svg viewBox="0 0 1280 720" preserveAspectRatio="none" aria-hidden="true"><line class="ptr-halo" x1="683" y1="575" x2="646" y2="522"/><line class="ptr" x1="683" y1="575" x2="646" y2="522"/><g class="ptr-tag"><rect x="676" y="576" width="48" height="48"/><text x="700" y="613">1</text></g><line class="ptr-halo" x1="301" y1="592" x2="182" y2="559"/><line class="ptr" x1="301" y1="592" x2="182" y2="559"/><g class="ptr-tag"><rect x="306" y="576" width="48" height="48"/><text x="330" y="613">2</text></g></svg></div><figcaption>STOPWATCH. <span class="n">1</span> LAP records the time so far. <span class="n">2</span> the last eight laps are listed.</figcaption></figure>
 
 <h2>14a.3 CALCULATOR</h2>
 <ul>
@@ -402,12 +470,16 @@ scores are kept on the card in MESHDECK/games/scores.txt, and only a new best is
   <li>Up to 12 digits can be typed. There is no key for a minus sign on a number you type, but a result can be negative (1 - 5 gives -4).</li>
 </ul>
 
+<figure class="fig"><div class="frame"><img src="images/11d-tools-calculator.png" alt=""></div><figcaption>CALCULATOR: 12 * 3 + 4 = 40 (left to right, like a pocket calculator).</figcaption></figure>
+
 <h1>15. The boot splash and the home information panel</h1>
 <h2>15.1 The boot splash</h2>
 <p>At every power-on, green drips fall down the screen and light up the words MESHDECK - OS, letter by letter. When the words
 are complete, the drips still falling run off the bottom of the screen, leaving the words alone on black; then the words fade
 out, and the lock screen (if a PIN is set), the setup (on first start) or the
 home screen appears. Any key or a tap skips the splash.</p>
+<div class="figs-2"><figure class="fig"><div class="frame"><img src="images/splash-1.png" alt=""></div><figcaption>The boot splash: drips falling.</figcaption></figure><figure class="fig"><div class="frame"><img src="images/splash-3.png" alt=""></div><figcaption>The drips have spelt the name.</figcaption></figure></div>
+
 <h2>15.2 The home information panel</h2>
 <p>The empty space beside the tiles shows, live:</p>
 <ul>

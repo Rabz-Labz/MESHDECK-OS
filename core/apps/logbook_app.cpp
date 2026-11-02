@@ -104,18 +104,18 @@ public:
     }
 
     const char* hint() const override {
-        if (part_ == 0) return "TYPE AN ENTRY, THEN ADD  |  ENTRIES ARE NEVER EDITED  |  ESC BACK";
+        if (part_ == 0) return "TYPE AN ENTRY, THEN ADD  |  ENTRIES ARE NEVER EDITED";
         if (part_ == 1) {
-            return form_ < 0 ? "PICK A REPORT  |  ESC BACK"
-                             : "TAP A BOX AND TYPE  |  SAVE KEEPS IT ON THE CARD  |  ESC BACK";
+            return form_ < 0 ? "PICK A REPORT"
+                             : "TAP A BOX AND TYPE  |  SAVE KEEPS IT ON THE CARD";
         }
         if (part_ == 2) {
-            return loc_.empty() ? "PICK A LOCATION, OR TYPE A NEW ONE  |  ESC BACK"
+            return loc_.empty() ? "PICK A LOCATION, OR TYPE A NEW ONE"
                                 : "TAP AN ITEM TO CHANGE IT  |  ESC BACK TO THE LOCATIONS";
         }
         if (part_ == 3) {
-            return selNote_.empty() ? "TYPE A NOTE, THEN SAVE  |  TAP A NOTE TO READ IT  |  ESC BACK"
-                                    : "READ-ONLY: NEW NOTE TO WRITE ANOTHER  |  ESC BACK";
+            return selNote_.empty() ? "TYPE A NOTE, THEN SAVE  |  TAP A NOTE TO READ IT"
+                                    : "READ-ONLY: NEW NOTE TO WRITE ANOTHER";
         }
         return part_ < 0 ? "1-4 OPEN A PART  |  ARROWS + ENTER" : nullptr;
     }

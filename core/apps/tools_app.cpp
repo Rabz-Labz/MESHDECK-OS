@@ -111,9 +111,10 @@ public:
     }
 
     const char* hint() const override {
-        if (view_ == View::Timer) return "SPACE STARTS OR PAUSES  |  R RESETS  |  ESC BACK";
-        if (view_ == View::Stopwatch) return "SPACE STARTS OR STOPS  |  L LAP  |  R RESETS  |  ESC BACK";
-        if (view_ == View::Calculator) return "DIGITS AND + - * /  |  ENTER OR = WORKS IT OUT  |  C CLEARS  |  ESC BACK";
+        // The shell puts ESC BACK in front of every app's hint, so it isn't repeated here.
+        if (view_ == View::Timer) return "SPACE STARTS OR PAUSES  |  R RESETS";
+        if (view_ == View::Stopwatch) return "SPACE STARTS OR STOPS  |  L LAP  |  R RESETS";
+        if (view_ == View::Calculator) return "DIGITS AND + - * /  |  ENTER OR = WORKS IT OUT  |  C CLEARS";
         return "CHOOSE A TOOL  |  ARROWS + ENTER";
     }
 
@@ -311,7 +312,7 @@ private:
     void buildCalculator(Frame& frame) {
         const Theme& t = shell_.th();
         const int g = ui::kGap;
-        lv_obj_t* panel = ui::panel(shell_, frame.body, 0, 0, frame.w, 120);
+        lv_obj_t* panel = ui::panel(shell_, frame.body, 0, 0, frame.w, 116);
         display_ = ui::label(panel, entry_, fonts().huge, t.ink);
         lv_obj_align(display_, LV_ALIGN_RIGHT_MID, -g, 0);
 
@@ -322,14 +323,17 @@ private:
             {"0", ".", "=", "+"},
             {"C", "BKSP", nullptr, nullptr},
         };
-        const int bw = (frame.w - 3 * g) / 4, bh = ui::kTouchMin;
+        // Five rows share the height below the display, never smaller than a touch target.
+        const int top = 116 + g / 2, rowGap = g / 2, bw = (frame.w - 3 * g) / 4;
+        int bh = (frame.h - top - 4 * rowGap) / 5;
+        if (bh < ui::kTouchMin) bh = ui::kTouchMin;
         for (int r = 0; r < 5; r++)
             for (int c = 0; c < 4; c++) {
                 const char* label = rows[r][c];
                 if (!label) continue;
                 const char key = !strcmp(label, "BKSP") ? 'B' : label[0];
                 lv_obj_t* b = ui::button(shell_, frame.body, label, [this, key] { calcPress(key); }, bw, bh);
-                lv_obj_set_pos(b, c * (bw + g), 140 + r * (bh + g));
+                lv_obj_set_pos(b, c * (bw + g), top + r * (bh + rowGap));
             }
     }
 

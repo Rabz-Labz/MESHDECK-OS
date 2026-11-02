@@ -63,7 +63,7 @@ public:
         shell_.preferFocus(field_);
     }
 
-    const char* hint() const override { return "TYPE A COMMAND, THEN ENTER  |  HELP LISTS THEM  |  ESC BACK"; }
+    const char* hint() const override { return "TYPE A COMMAND, THEN ENTER  |  HELP LISTS THEM"; }
 
 private:
     // One line as a label at the bottom of the output box, scrolled into view.

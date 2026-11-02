@@ -88,7 +88,7 @@ public:
         switch (view_) {
         case View::Reader:
             return book_.kind() == BookPack::Pages ? "+ / - TURN THE PAGE  |  UP/DOWN SCROLL  |  ESC BACK TO THE SHELF"
-                                                   : "+ / - NEXT OR PREVIOUS SECTION  |  UP/DOWN SCROLL  |  ESC BACK";
+                                                   : "+ / - NEXT OR PREVIOUS SECTION  |  UP/DOWN SCROLL";
         case View::Shelf: return "ARROWS + ENTER OPEN A BOOK (IT REOPENS WHERE YOU LEFT OFF)";
         default: return "TYPE TO SEARCH THE CARDS  |  ARROWS + ENTER";
         }
