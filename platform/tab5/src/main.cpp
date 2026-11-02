@@ -65,6 +65,8 @@ void readTouch(lv_indev_t*, lv_indev_data_t* data) {
 //   RADIO LOG         the last 4 KB of ESP-IDF log lines (the USB host stack's errors)
 //   UPLOAD <name> <bytes> [resume]   receive a map pack (<name>.map) or the place index
 //                     (places.txt) into MESHDECK/maps; tools/upload.py sends it
+//   FILES [path]      list a folder inside MESHDECK/ ("DIR name" / "FILE size name", then FILES END)
+//   DOWNLOAD <path>   send a file inside MESHDECK/ to the PC; tools/download.py receives it
 void serialCommands();
 
 // Receives a file over serial into MESHDECK/maps (see tools/upload.py). The sender sends 4096-byte
@@ -120,6 +122,72 @@ void receiveUpload(const String& name, long size, bool resume) {
     Serial.printf("UPLOAD %s %s %ld of %ld bytes\n", name.c_str(), ok ? "OK" : "FAILED", got, size);
 }
 
+// A path inside MESHDECK/ from the PC: letters, digits, - _ . / and spaces, no ".." and no leading
+// "/", so FILES and DOWNLOAD can't reach outside MESHDECK. "" (or ".") is MESHDECK/ itself.
+// Returns the full path, or "" if it isn't allowed or there is no card.
+std::string meshdeckPath(const String& rel) {
+    meshdeck::Paths paths(platform.dataRoot());
+    if (!paths.available() || rel.startsWith("/") || rel.indexOf("..") >= 0) return "";
+    for (unsigned i = 0; i < rel.length(); i++) {
+        char c = rel[i];
+        if (!isalnum((unsigned char)c) && c != '-' && c != '_' && c != '.' && c != '/' && c != ' ') return "";
+    }
+    std::string root = paths.folder(meshdeck::Folder::Root);
+    return rel.length() && rel != "." ? root + "/" + rel.c_str() : root;
+}
+
+// Lists a folder inside MESHDECK/ (see tools/download.py).
+void listFiles(const String& rel) {
+    std::string path = meshdeckPath(rel);
+    if (path.empty()) { Serial.println("FILES REJECTED (A PATH INSIDE MESHDECK/; SD CARD REQUIRED)"); return; }
+    for (const auto& e : meshdeck::listDir(path))
+        if (e.isDir) Serial.printf("DIR %s\n", e.name.c_str());
+        else Serial.printf("FILE %llu %s\n", (unsigned long long)e.size, e.name.c_str());
+    Serial.println("FILES END");
+}
+
+// Sends a file inside MESHDECK/ to the PC (see tools/download.py): "DOWNLOAD SIZE n", then the
+// bytes in 4096-byte blocks, waiting up to 30 s for 'K' after each so the PC sets the pace, then
+// "DOWNLOAD OK n" or "DOWNLOAD FAILED".
+void sendFile(const String& rel) {
+    std::string path = meshdeckPath(rel);
+    FILE* f = path.empty() ? nullptr : fopen(path.c_str(), "rb");
+    if (!f) { Serial.println("DOWNLOAD REJECTED (NO SUCH FILE INSIDE MESHDECK/)"); return; }
+    fseek(f, 0, SEEK_END);
+    long size = ftell(f);
+    fseek(f, 0, SEEK_SET);
+    Serial.printf("DOWNLOAD SIZE %ld\n", size);
+    static uint8_t buf[4096];
+    long sent = 0;
+    bool ok = true;
+    while (ok && sent < size) {
+        size_t n = fread(buf, 1, sizeof buf, f);
+        if (!n) { ok = false; break; }
+        // Serial.write gives up (and drops the rest) when the USB buffer stays full past its
+        // timeout, so keep writing until the whole block is out.
+        uint32_t start = millis();
+        size_t off = 0;
+        while (off < n && millis() - start < 30000) {
+            size_t w = Serial.write(buf + off, n - off);
+            if (w) off += w;
+            else delay(1);
+        }
+        Serial.flush();
+        if (off < n) { ok = false; break; }
+        sent += n;
+        start = millis();
+        int c = -1;
+        while (c != 'K' && millis() - start < 30000) {
+            c = Serial.read();
+            if (c < 0) delay(1);
+        }
+        ok = c == 'K';
+    }
+    fclose(f);
+    if (ok) Serial.printf("\nDOWNLOAD OK %ld\n", sent);
+    else Serial.println("\nDOWNLOAD FAILED");
+}
+
 void serialCommands() {
     static String line;
     while (Serial.available()) {
@@ -157,6 +225,10 @@ void serialCommands() {
             String name = line.substring(7, s1 > 0 ? s1 : line.length());
             long size = s1 > 0 ? line.substring(s1 + 1, s2 > 0 ? s2 : line.length()).toInt() : 0;
             receiveUpload(name, size, s2 > 0 && line.substring(s2 + 1) == "resume");
+        } else if (line == "FILES" || line.startsWith("FILES ")) {
+            listFiles(line.length() > 6 ? line.substring(6) : String());
+        } else if (line.startsWith("DOWNLOAD ")) {
+            sendFile(line.substring(9));
         } else if (line == "RADIO") {
             Serial.printf("RADIO usb=\"%s\" %s %s mesh=\"%s\" frames=%u\n", usbRadio.describe().c_str(),
                           usbRadio.diagnostics().c_str(), usbRadio.hostInfo().c_str(), mesh.linkText(),
